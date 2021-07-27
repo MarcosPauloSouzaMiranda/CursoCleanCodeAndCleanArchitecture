@@ -1,0 +1,21 @@
+{
+  "name": "course_clean_code_and_clean_architurecture",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "tsc:init": "tsc --init",
+    "build": "tsc",
+    "test": "tsc && jest dist/"
+  },
+  "author": "Marcos Paulo Souza Miranda",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^4.3.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.24",
+    "@types/node": "^16.4.3",
+    "jest": "^27.0.6"
+  }
+}
