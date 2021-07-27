@@ -1,22 +1,36 @@
 import Cpf from './Cpf';
 
-test('CPF is valid', function() {
-    const cpf: Cpf = new Cpf();
-    const isValid: boolean = cpf.validCPF('119.319.956-56');
-    expect(isValid).toBe(true);
-});
-
 test('CPF equals number is not valid', function() {
-    const isValid: boolean = true;
+    const cpfPeopleEqualsNumber: string = '11111111111';
+    const cpf: Cpf = new Cpf();
+    const isValid: boolean = cpf.validCPF(cpfPeopleEqualsNumber);
     expect(isValid).toBe(false);
 });
 
 test('CPF sequencial number is not valid', function() {
-    const isValid: boolean = true;
+    const cpfPeople: string = '12345678910';
+    const cpf: Cpf = new Cpf();
+    const isValid: boolean = cpf.validCPF(cpfPeople);
     expect(isValid).toBe(false);
 });
 
+test('CPF with length is not valid', function() {
+    const cpfPeople: string = '962.817.270';
+    const cpf: Cpf = new Cpf();
+    const isValid: boolean = cpf.validCPF(cpfPeople);
+    expect(isValid).toBe(false);
+});
+
+test('CPF is valid', function() {
+    const cpfPeople: string = '962.817.270-02';
+    const cpf: Cpf = new Cpf();
+    const isValid: boolean = cpf.validCPF(cpfPeople);
+    expect(isValid).toBe(true);
+});
+
 test('CPF is invalid', function() {
-    const isValid: boolean = true;
+    const cpfPeople: string = '753.329.750-41';
+    const cpf: Cpf = new Cpf();
+    const isValid: boolean = cpf.validCPF(cpfPeople);
     expect(isValid).toBe(false);
 });
