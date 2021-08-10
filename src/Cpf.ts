@@ -1,33 +1,32 @@
 export default class Cpf{
-    
-    constructor() {}
+    private _value: string;
+
+    constructor(cpf: string) {
+        if (!this.validCPF(cpf)) throw new Error('Invalid CPF');
+        this._value = this.extractNumbers(cpf);
+    }
+
+    public get value (): string{
+        return this._value;
+    }
     
     private extractNumbers (cpf: string): string {
-        const regex = /\d+/g
-        const parsedStatment: (RegExpMatchArray | null) = cpf.match(regex);
-        if (!parsedStatment) throw 'Números CPF não encontrados!';
-        return parsedStatment.join('');
+        return cpf.replace(/\D/g, '');
     }
 
     private isAllCharacterEqual (cpf: string): boolean {
-        const firstCharacter: string = cpf.substr(0, 1);
-        let isEqual: boolean = true;
-        for(let char of cpf) {
-            if (firstCharacter !== char) isEqual = false;
-        }       
-        return isEqual;
+        const [firstCharacter] = cpf;
+        return cpf.split('').every(digit => firstCharacter === digit);
     }
 
     private isSequencialNumber (cpf: string): boolean {
         const CPF_SEQUENCIAL_INVALID: string = '12345678910';
-        if (cpf == CPF_SEQUENCIAL_INVALID) return true;
-        return false;
+        return cpf === CPF_SEQUENCIAL_INVALID;
     }
 
     private isNumberCharacterValid (cpf: string): boolean {
         const CPF_LENGTH_VALID: number = 11;
-        if (cpf.length === CPF_LENGTH_VALID) return true;
-        return false;
+        return cpf.length === CPF_LENGTH_VALID;
     }
 
     private extractBaseCPF (cpf: string): string {
@@ -53,7 +52,7 @@ export default class Cpf{
         return verificationDigit.toString();
     }
 
-    public validCPF (cpf : string): boolean {
+    public validCPF (cpf: string): boolean {
         cpf = this.extractNumbers(cpf);
         if (this.isAllCharacterEqual(cpf)) return false;
         if (this.isSequencialNumber(cpf)) return false;

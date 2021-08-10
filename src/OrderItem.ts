@@ -1,25 +1,14 @@
 export default class OrderItem{
-    private _description: string = '';
+    public id: string;
     private _price: number = 0;
     private _quantity: number = 0;
 
-    constructor (description: string, price: number, quantity: number) {
-        this.description =  description;
+    constructor (id: string, price: number, quantity: number) {
+        this.id =  id;
         this.price = price;
         this.quantity = quantity;
     }
 
-    public set description (description: string) {
-        const MIN_LENGTH_DESCRIPTION = 3;
-        description = description.trim();
-        if (!description) throw 'Descrição do item é um campo obrigatório!';
-        if (description.length < MIN_LENGTH_DESCRIPTION) throw `Descrição deve conter no mínimo ${MIN_LENGTH_DESCRIPTION} caracteres!`;
-        this._description = description;
-    }
-
-    public get description (): string {
-        return this._description;
-    }
 
     public set price (price: number) {
         if (price <= 0) throw 'O preço não pode ser menor ou igual a zero!';

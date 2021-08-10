@@ -1,69 +1,64 @@
+import Coupon from "./Coupon";
+import Cpf from "./Cpf";
+import OrderIdentity from "./OrderIdentity";
 import OrderItem from "./OrderItem";
 
 export default class Order{
-    private _namePeople: string = '';
-    private _percentDiscount: number = 0;
-    private _items: OrderItem[] = [];
+    public identity?: OrderIdentity;
+    private _cpf: Cpf;
+    public items: OrderItem[] = [];
+    public coupon: Coupon | undefined;
+    public freight: number = 0;
+    public zipcode: string;
 
-    constructor (namePeople: string, percentDiscount: number, items: OrderItem[]) {
-        this.namePeople = namePeople;
-        this.percentDiscount = percentDiscount;
-        items.forEach((item: OrderItem) => this.addItem(item));
+    constructor(cpf: string, zipcode: string) {
+        this._cpf = new Cpf(cpf);
+        this.zipcode = zipcode;
     }
 
-    public set namePeople (namePeople: string) {
-        const MIN_LENGTH_NAMEPEOPLE = 3;
-        namePeople = namePeople.trim();
-        if (!namePeople) throw 'O nome do comprador é obrigatório!';
-        if (namePeople.length < MIN_LENGTH_NAMEPEOPLE) throw `O nome do comprador deve conter no mínimo ${MIN_LENGTH_NAMEPEOPLE} caracteres!`;
-        this._namePeople = namePeople;
+    public get cpf(): string {
+        return this._cpf.value;
     }
 
-    public get namePeople (): string {
-        return this._namePeople;
+    private getGrossTotalValue(): number {
+        return this.items.reduce((totalValue: number, item: OrderItem) => totalValue + item.totalValue, 0);
     }
 
-    public set percentDiscount (percentDiscount: number) {
-        if (percentDiscount <= 0) throw 'O percentual de desconto precisa ser maior que zero!';
-        this._percentDiscount = percentDiscount;
+    public getTotalValue(): number {
+        let totalValue: number = this.getGrossTotalValue();
+        if (this.coupon) totalValue -= (totalValue * (this.coupon.percentDiscount / 100));
+        totalValue += this.freight;
+        return totalValue;
     }
 
-    public get percentDiscount (): number {
-        return this._percentDiscount;
+    public getTotalDiscount(): number {
+        if (!this.coupon) return 0;
+        const grossTotalValue: number = this.getGrossTotalValue();
+        return grossTotalValue * (this.coupon.percentDiscount / 100);
     }
 
-    public get items (): OrderItem[] {
-        return this._items;
-    }
-
-    private _calculateTotalValueItems (): number {
-        return this._items.reduce((totalValue: number, item: OrderItem) => totalValue + item.totalValue, 0);
-    }
-
-    public get totalValue(): number{
-        let totalValueItems: number = this._calculateTotalValueItems();
-        return totalValueItems - this.totalDiscount;
-    }
-
-    public get totalDiscount(): number {
-        let totalValueItems: number = this._calculateTotalValueItems();
-        return totalValueItems * (this._percentDiscount / 100);
-    }
-
-    private _searchIndexItem(item: OrderItem): number{
-        const index: number = this._items.findIndex((itemIndex: OrderItem) => itemIndex.description === item.description);
+    private _searchIndexItem(id: string): number {
+        const index: number = this.items.findIndex((itemIndex: OrderItem) => itemIndex.id === id);
         return index;
     }
 
-    public addItem (item: OrderItem): void {
-        let index: number = this._searchIndexItem(item);
-        if (index >= 0) throw `O item ${item.description} já existe no pedido!`;
-        this._items.push(item);
+    public addItem(id: string, price: number, quantity: number): void {
+        let index: number = this._searchIndexItem(id);
+        if (index >= 0) throw `Then item ${id} exists in the order!`;
+        this.items.push(new OrderItem(id, price, quantity));
     }
 
-    public removeItem (item: OrderItem): void {
-        let index: number = this._searchIndexItem(item);
-        if (index < 0) throw `O item ${item.description} não foi encontrado no pedido!`;
-        this._items.splice(index, 1);
+    public removeItem(id: string): void {
+        let index: number = this._searchIndexItem(id);
+        if (index < 0) throw `The item ${id} not search in the order!`;
+        this.items.splice(index, 1);
+    }
+
+    public addCoupon(coupon: Coupon): void{
+        if (!coupon.isExpired()) this.coupon = coupon;
+    }
+
+    public addIdentity(identity: OrderIdentity): void {
+        this.identity = identity;
     }
 }
