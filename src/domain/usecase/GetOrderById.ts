@@ -1,6 +1,6 @@
 import GetOrderByIdOutput from "./GetOrderByIdOutput";
-import Order from "./Order";
-import OrderRepository from "./OrderRepository";
+import Order from "../entities/Order";
+import OrderRepository from "../repository/OrderRepository";
 
 export default class GetOrderById{
     private orderRepository: OrderRepository;

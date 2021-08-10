@@ -1,4 +1,4 @@
-import Order from "./Order";
+import Order from "../entities/Order";
 
 export default interface OrderRepository{
     count(): number;

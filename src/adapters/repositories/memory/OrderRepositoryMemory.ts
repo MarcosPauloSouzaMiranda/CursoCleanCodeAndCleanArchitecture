@@ -1,6 +1,6 @@
-import Order from "./Order";
-import OrderIdentity from "./OrderIdentity";
-import OrderRepository from "./OrderRepository";
+import Order from "../../../domain/entities/Order";
+import OrderIdentity from "../../../domain/entities/OrderIdentity";
+import OrderRepository from "../../../domain/repository/OrderRepository";
 
 export default class OrderRepositoryMemory implements OrderRepository{
     private orders: Order[] = [];

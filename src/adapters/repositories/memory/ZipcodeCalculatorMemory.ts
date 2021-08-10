@@ -1,4 +1,4 @@
-import ZipcodeCalculatorAPI from "./ZipcodeCalculatorAPI";
+import ZipcodeCalculatorAPI from "../../../domain/repository/ZipcodeCalculatorAPI";
 
 export default class ZipcodeCalculatorMemory implements ZipcodeCalculatorAPI{
     public calculate(zipcodeOrigin: string, zipcodeDestination: string): number {

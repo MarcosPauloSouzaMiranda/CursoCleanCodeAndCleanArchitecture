@@ -1,14 +1,14 @@
-import Coupon from "./Coupon";
-import CouponRepository from "./CouponRepository";
-import FreightCalculator from "./FreightCalculator";
-import Item from "./Item";
-import ItemRepository from "./ItemRepository";
-import Order from "./Order"
-import OrderRepository from "./OrderRepository";
+import Coupon from "../entities/Coupon";
+import CouponRepository from "../repository/CouponRepository";
+import FreightCalculator from "../entities/FreightCalculator";
+import Item from "../entities/Item";
+import ItemRepository from "../repository/ItemRepository";
+import Order from "../entities/Order"
+import OrderRepository from "../repository/OrderRepository";
 import PlaceOrderInput from "./PlaceOrderInput";
 import PlaceOrderOutput from "./PlacerOderOutput";
-import ZipcodeCalculatorAPI from "./ZipcodeCalculatorAPI";
-import ZipcodeCalculatorMemory from "./ZipcodeCalculatorMemory";
+import ZipcodeCalculatorAPI from "../repository/ZipcodeCalculatorAPI";
+import ZipcodeCalculatorMemory from "../../adapters/repositories/memory/ZipcodeCalculatorMemory";
 
 export default class PlaceOrder{
     private itemRepository: ItemRepository;
