@@ -4,16 +4,21 @@ import OrderIdentity from "./OrderIdentity";
 import OrderItem from "./OrderItem";
 
 export default class Order{
-    public identity?: OrderIdentity;
+    public identity: OrderIdentity;
     private _cpf: Cpf;
     public items: OrderItem[] = [];
     public coupon: Coupon | undefined;
     public freight: number = 0;
     public zipcode: string;
+    public sequence: number;
+    public createdDate: Date;
 
-    constructor(cpf: string, zipcode: string) {
+    constructor(cpf: string, zipcode: string, sequence: number) {
         this._cpf = new Cpf(cpf);
         this.zipcode = zipcode;
+        this.sequence = sequence;
+        this.createdDate = new Date();
+        this.identity = new OrderIdentity(this.createdDate, this.sequence);
     }
 
     public get cpf(): string {
@@ -56,9 +61,5 @@ export default class Order{
 
     public addCoupon(coupon: Coupon): void{
         if (!coupon.isExpired()) this.coupon = coupon;
-    }
-
-    public addIdentity(identity: OrderIdentity): void {
-        this.identity = identity;
     }
 }

@@ -24,7 +24,8 @@ export default class PlaceOrder{
     }
 
     public execute(input: PlaceOrderInput): PlaceOrderOutput {
-        const order: Order = new Order(input.cpf, input.zipcode);
+        const sequence: number = this.orderRepository.count() + 1;
+        const order: Order = new Order(input.cpf, input.zipcode, sequence);
         const distance: number = this.zipcodeCalculator.calculate('11.111-11', input.zipcode);
         input.items.forEach((item : any) => {
             const itemSearch: Item = this.itemRepository.findById(item.id);

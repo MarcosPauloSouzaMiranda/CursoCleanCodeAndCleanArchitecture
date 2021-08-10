@@ -10,7 +10,6 @@ export default class OrderRepositoryMemory implements OrderRepository{
     }
 
     public add(order: Order): void {
-        order.addIdentity(new OrderIdentity(this.count()));
         this.orders.push(order);
     }
 
